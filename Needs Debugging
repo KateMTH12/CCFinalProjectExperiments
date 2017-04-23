@@ -1,0 +1,355 @@
+//=var lambL = [E, D, C, D, E, E, E, D, D, D, E, G, G, E, D, C, D, E, E, E, E, D, D, E, D, C];
+var lamb = [46, 44, 42, 44, 46, 46, 46, 44, 44, 44, 46, 49, 49, 46, 44, 42, 44, 46, 46, 46, 46, 44, 44, 46, 44, 42];
+var playing = [];
+
+var serial;
+var portName = 'COM5';
+var inData = 0;
+
+var font;
+var C;
+var CS;
+var D;
+var DS;
+var E;
+var F;
+var FS;
+var G;
+var GS;
+var A;
+var Bb;
+var B;
+var C1;
+
+var i = 0;
+var t = 25;
+var osc;
+var switcher = false;
+var notes = [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54];
+
+var p1;
+var p2;
+var p3;
+var p4;
+var p5;
+var p6;
+var p7;
+var p8;
+var p9;
+var p10;
+var p11;
+var p12;
+var p13;
+var p14;
+var p15;
+var p16;
+var p17;
+var p18;
+var p19;
+var p20;
+var p21;
+var p22;
+var p23;
+var p24;
+var p25;
+var p26;
+
+var c;
+var cs;
+var d;
+var eb;
+var e;
+var f;
+var fs;
+var g;
+var gs;
+var a;
+var bb;
+var b;
+var c5;
+
+var letter = " ";
+var x = 0;
+var y = 0;
+var colors;
+var alph = 100;
+
+var raindrops = [];
+var blocks = [];
+
+function preload() {
+
+  font = loadFont('KalamBold.ttf')
+  c = loadSound('C.wav');
+  cs = loadSound('Cs.wav');
+  d = loadSound('D.wav');
+  eb = loadSound('Eb.wav');
+  e = loadSound('E.wav');
+  f = loadSound('F.wav');
+  fs = loadSound('Fs.wav');
+  g = loadSound('G.wav');
+  gs = loadSound('Gs.wav');
+  a = loadSound('A.wav');
+  bb = loadSound('Bb.wav');
+  b = loadSound('B.wav');
+  c5 = loadSound('C5.wav');
+
+  p1 = loadImage('26.png');
+  p2 = loadImage('25.png');
+  p3 = loadImage('24.png');
+  p4 = loadImage('23.png');
+  p5 = loadImage('22.png');
+  p6 = loadImage('21.png');
+  p7 = loadImage('20.png');
+  p8 = loadImage('19.png');
+  p9 = loadImage('18.png');
+  p10 = loadImage('17.png');
+  p11 = loadImage('16.png');
+  p12 = loadImage('15.png');
+  p13 = loadImage('14.png');
+  p14 = loadImage('13.png');
+  p15 = loadImage('12.png');
+  p16 = loadImage('11.png');
+  p17 = loadImage('10.png');
+  p18 = loadImage('9.png');
+  p19 = loadImage('8.png');
+  p20 = loadImage('7.png');
+  p21 = loadImage('6.png');
+  p22 = loadImage('5.png');
+  p23 = loadImage('4.png');
+  p24 = loadImage('3.png');
+  p25 = loadImage('2.png');
+  p26 = loadImage('1.png');
+
+
+
+}
+
+function setup() {
+  /*
+    serial = new p5.SerialPort(); // make a new instance of the serialport library
+    serial.on('list', printList); // set a callback function for the serialport list event
+    serial.on('connected', serverConnected); // callback for connecting to the server
+    serial.on('open', portOpen); // callback for the port opening
+    serial.on('data', serialEvent); // callback for when new data arrives
+    serial.on('error', serialError); // callback for errors
+    serial.on('close', portClose); // callback for the port closing
+  */
+  ellipseMode(CENTER);
+  var options = {
+    baudrate: 9600
+  };
+  osc = new p5.Oscillator('Triangle');
+  //serial.list(); // list the serial ports
+  //serial.open(portName); // open a serial port
+  createCanvas(windowWidth, windowHeight);
+  noCursor();
+}
+
+function serialEvent() {
+  inData = serial.readStringUntil('\r\n');
+  if (inData.length > 0) {
+    inData = split(inData, ',');
+  }
+}
+
+function draw() {
+  background(0);
+  image(p1, width / 2, height / 2);
+  textFont(font);
+  stroke(255);
+  fill(255);
+  textSize(50);
+  text(letter, 10, 60);
+  if (playing.length > 26) {
+    shorten(playing);
+  }
+  print(playing);
+  print(playing.length);
+  for (var i = 0; i < playing.length; i++) {
+    if (playing[i] == lamb[i]) {
+      fill(255);
+      ellipse(width / 2, height / 2, 50, 50);
+    } else {
+      playing.splice(0, 1);
+      fill(0);
+      ellipse(width / 2, height / 2, 50, 50);
+    }
+  }
+}
+
+
+function keyPressed() {
+  if (keyCode === 65) {
+    colors = C;
+    letter = "C";
+    x = random((width / 8));
+    y = random((height / 3), height);
+    i = 0;
+    if (switcher === true) {
+      c.play();
+    }
+  }
+  if (keyCode === 87) {
+    colors = CS;
+    letter = "C#";
+    x = random(width / 5);
+    y = random((height / 3));
+    i = 1;
+    if (switcher === true) {
+      cs.play();
+    }
+  }
+  if (keyCode === 83) {
+    colors = D;
+    letter = "D";
+    x = random((width / 8), 2 * (width / 7));
+    y = random(height / 3);
+    i = 2;
+    if (switcher === true) {
+      d.play();
+    }
+  }
+  if (keyCode === 69) {
+    colors = DS;
+    letter = "Eb";
+    x = random((width / 5), 2 * (width / 5));
+    y = random((height / 3));
+    i = 3;
+    if (switcher === true) {
+      eb.play();
+    }
+  }
+  if (keyCode === 68) {
+    colors = E;
+    letter = "E";
+    x = random(2 * (width / 8), 3 * (width / 7));
+    y = random((height / 3), height);
+    i = 4;
+    if (switcher === true) {
+      e.play();
+    }
+  }
+  if (keyCode === 70) {
+    colors = F;
+    letter = "F";
+    x = random(3 * (width / 8), 4 * (width / 7));
+    y = random((height / 3), height);
+    i = 5;
+    if (switcher === true) {
+      f.play();
+    }
+  }
+  if (keyCode === 84) {
+    colors = FS;
+    letter = "F#";
+    x = random(2 * (width / 5), 3 * (width / 5));
+    y = random((height / 3));
+    i = 6;
+    if (switcher === true) {
+      fs.play();
+    }
+  }
+  if (keyCode === 71) {
+    colors = G;
+    letter = "G";
+    x = random(4 * (width / 8), 5 * (width / 7));
+    y = random((height / 3), height);
+    i = 7;
+    if (switcher === true) {
+      g.play();
+    }
+  }
+  if (keyCode === 89) {
+    colors = GS;
+    letter = "G#";
+    x = random(3 * (width / 5), 4 * (width / 5));
+    y = random((height / 3));
+    i = 8;
+    if (switcher === true) {
+      gs.play();
+    }
+  }
+  if (keyCode === 72) {
+    colors = A;
+    letter = "A";
+    x = random(5 * (width / 8), 6 * (width / 7));
+    y = random((height / 3), height);
+    i = 9;
+    if (switcher === true) {
+      a.play();
+    }
+  }
+  if (keyCode === 85) {
+    colors = Bb;
+    letter = "Bb";
+    x = random(4 * (width / 5), width);
+    y = random((height / 3));
+    i = 10;
+    if (switcher === true) {
+      bb.play();
+    }
+  }
+  if (keyCode === 74) {
+    colors = B;
+    letter = "B";
+    x = random(6 * (width / 8), 7 * (width / 8));
+    y = random((height / 3), height);
+    i = 11;
+    if (switcher === true) {
+      b.play();
+    }
+  }
+  if (keyCode === 75) {
+    colors = C1;
+    letter = "C5";
+    x = random(7 * (width / 8), width);
+    y = random((height / 3), height);
+    i = 12;
+    if (switcher === true) {
+      c5.play();
+    }
+  }
+  if (keyCode === ENTER || keyCode === RETURN) {
+    if (switcher === false) {
+      osc.amp(0, 0.5);
+      switcher = true;
+
+    } else {
+      osc.amp(0.5, 0.05);
+      switcher = false;
+    }
+  }
+
+  osc.start(0, notes[i]);
+  var freq = midiToFreq(notes[i]);
+  osc.freq(freq);
+  piano = false;
+  playing.push(notes[i]);
+  if (playing.length > 26) {
+    splice(0, 1);
+  }
+}
+/*
+function serialError(err) {
+  console.log('Something went wrong with the serial port. ' + err);
+}
+
+function portClose() {
+  console.log('The serial port closed.');
+}
+
+function printList(portList) {
+  for (var i = 0; i < portList.length; i++) {
+    console.log(i + " " + portList[i]);
+  }
+}
+
+
+function serverConnected() {
+  console.log('connected to server.');
+}
+
+function portOpen() {
+  console.log('the serial port opened.')
+}*/
